@@ -18,3 +18,8 @@ EOF
 5. Create Wireguard folder: `sudo mkdir -p /etc/wireguard`
 6. Copy Wireguard config to `/etc/wireguard/wg0.conf`
 7. Import wireguard connection to networkmanager: `sudo nmcli con import type wireguard file /etc/wireguard/wg0.conf`
+
+Features:
+- SSHD
+- WireGuard
+- Syncthing
