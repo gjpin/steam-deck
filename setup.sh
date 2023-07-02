@@ -1,6 +1,3 @@
-# Set user password
-passwd
-
 # Create common folders
 mkdir -p ${HOME}/.config/systemd/user/
 mkdir -p ${HOME}/.local/bin
@@ -8,23 +5,6 @@ mkdir -p ${HOME}/.local/bin
 # Install flatpaks
 flatpak install flathub com.heroicgameslauncher.hgl
 flatpak install flathub net.davidotek.pupgui2
-
-################################################
-##### SSH
-################################################
-
-# Create SSHD config
-sudo tee /etc/ssh/sshd_config << EOF
-Port 22
-PermitRootLogin no
-AuthorizedKeysFile      .ssh/authorized_keys
-PasswordAuthentication no
-PermitEmptyPasswords no
-UsePAM yes
-PrintMotd no
-EOF
-
-# Add public key to ${HOME}/.ssh/authorized_keys
 
 ################################################
 ##### Syncthing
