@@ -1,74 +1,13 @@
+################################################
+##### Restore Heroic saves from Syncthing to Desktop
+################################################
+
+# Create restore script
+tee ${HOME}/.local/bin/restore-heroic-saves.sh << EOF
 #!/usr/bin/bash
+rsync -r --mkpath "/data/games/saves/heroic/remnant_from_the_ashes/" "/data/games/heroic/prefixes/default/Remnant From the Ashes/drive_c/users/${USER}/AppData/Local/Remnant/Saved/SaveGames"
 
-# Create common folders
-mkdir -p ${HOME}/.config/systemd/user/
-mkdir -p ${HOME}/.local/bin
 
-# Install flatpaks
-flatpak install flathub com.heroicgameslauncher.hgl
-flatpak install flathub net.davidotek.pupgui2
-flatpak install flathub com.moonlight_stream.Moonlight
-
-################################################
-##### Syncthing
-################################################
-
-# Download and install latest Syncthing release
-LATEST_VERSION=$(curl -s https://api.github.com/repos/syncthing/syncthing/releases/latest | awk -F\" '/tag_name/{print $(NF-1)}')
-DOWNLOAD_URL=$(curl -L -s https://api.github.com/repos/syncthing/syncthing/releases/latest | grep -o -E "https://(.*)syncthing-linux-amd64-v(.*).tar.gz")
-curl -sSL ${DOWNLOAD_URL} -O
-tar -zxvf syncthing-linux-amd64-${LATEST_VERSION}.tar.gz -C ${HOME}/.local/bin syncthing-linux-amd64-${LATEST_VERSION}/syncthing --strip-components=1
-rm -f syncthing-linux-amd64-${LATEST_VERSION}.tar.gz
-
-# Syncthing updater
-tee ${HOME}/.local/bin/update-syncthing << 'EOF'
-#!/usr/bin/bash
-set -e
-
-LATEST_VERSION=$(curl -s https://api.github.com/repos/syncthing/syncthing/releases/latest | awk -F\" '/tag_name/{print $(NF-1)}')
-DOWNLOAD_URL=$(curl -L -s https://api.github.com/repos/syncthing/syncthing/releases/latest | grep -o -E "https://(.*)syncthing-linux-amd64-v(.*).tar.gz")
-curl -sSL ${DOWNLOAD_URL} -O
-rm ${HOME}/.local/bin/syncthing
-tar -zxvf syncthing-linux-amd64-${LATEST_VERSION}.tar.gz -C ${HOME}/.local/bin syncthing-linux-amd64-${LATEST_VERSION}/syncthing --strip-components=1
-rm -f syncthing-linux-amd64-${LATEST_VERSION}.tar.gz
-EOF
-
-chmod +x ${HOME}/.local/bin/update-syncthing
-
-# Add Syncthing service
-tee ${HOME}/.config/systemd/user/syncthing.service << EOF
-[Unit]
-Description=Syncthing - Open Source Continuous File Synchronization
-Documentation=man:syncthing(1)
-StartLimitIntervalSec=60
-StartLimitBurst=4
-
-[Service]
-ExecStart=${HOME}/.local/bin/syncthing serve --no-browser --no-restart --logflags=0
-Restart=on-failure
-RestartSec=1
-SuccessExitStatus=3 4
-RestartForceExitStatus=3 4
-
-# Hardening
-SystemCallArchitectures=native
-MemoryDenyWriteExecute=true
-NoNewPrivileges=true
-
-[Install]
-WantedBy=default.target
-EOF
-
-systemctl --user enable --now syncthing.service
-
-################################################
-##### Backup Heroic saves from Deck to Syncthing
-################################################
-
-# Create backups script
-tee ${HOME}/.local/bin/backup-heroic-saves.sh << EOF
-#!/usr/bin/bash
-rsync -r "/home/deck/Games/Heroic/Prefixes/default/Remnant From the Ashes/pfx/drive_c/users/steamuser/AppData/Local/Remnant/Saved/SaveGames"/. /home/deck/syncthing/saves/heroic/remnant_from_the_ashes
 rsync -r "/home/deck/Games/Heroic/Prefixes/default/The Pathless/pfx/drive_c/users/steamuser/AppData/Local/Pathless/Saved/SaveGames"/. /home/deck/syncthing/saves/heroic/the_pathless
 rsync -r "/home/deck/Games/Heroic/Prefixes/default/Solar Ash/pfx/drive_c/users/steamuser/AppData/Local/Solar/EGS/619ea35adadd4d6cb8fea37060af796c/SaveGames"/. /home/deck/syncthing/saves/heroic/solar_ash
 rsync -r "/home/deck/Games/Heroic/Prefixes/default/Wonder Boy The Dragons Trap/pfx/drive_c/users/steamuser/AppData/Local/Lizardcube/The Dragon's Trap"/. /home/deck/syncthing/saves/heroic/wonder_boy_the_dragons_trap
