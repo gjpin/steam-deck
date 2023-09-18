@@ -73,6 +73,10 @@ flatpak override --user --filesystem=xdg-download
 flatpak override --user --filesystem=xdg-config/gtk-3.0:ro
 flatpak override --user --filesystem=xdg-config/gtk-4.0:ro
 
+# Install Flatpak runtimes
+flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full/x86_64/22.08
+flatpak install -y flathub org.freedesktop.Platform.GStreamer.gstreamer-vaapi/x86_64/22.08
+
 # Install applications
 sudo flatpak install -y flathub com.github.tchx84.Flatseal
 sudo flatpak install -y flathub net.davidotek.pupgui2
@@ -90,30 +94,21 @@ flatpak override --user --filesystem=home/Games/Heroic com.heroicgameslauncher.h
 flatpak override --user --filesystem=home/.steam com.heroicgameslauncher.hgl
 
 ################################################
-##### Lutris
+##### Bottles
 ################################################
 
-# Install Lutris
-sudo flatpak install -y flathub net.lutris.Lutris
+# Install Bottles
+sudo flatpak install -y flathub com.usebottles.bottles
 
-# Allow Lutris to create application shortcuts
-flatpak override --user --filesystem=xdg-data/applications net.lutris.Lutris
+# Allow Bottles to create application shortcuts
+flatpak override --user --filesystem=xdg-data/applications com.usebottles.bottles
 
-# Allow Lutris access to its folder
-flatpak override --user --filesystem=home/Games/lutris net.lutris.Lutris
-
-# Allow Lutris access to Steam
-flatpak override --user --filesystem=home/.steam net.lutris.Lutris
-
-# Deny Lutris talk
-flatpak override --user --no-talk-name=org.freedesktop.Flatpak net.lutris.Lutris
-
-# Deny Lutris internet access
-flatpak override --user --unshare=network net.lutris.Lutris
+# Allow Bottles to access Steam folder
+flatpak override --user --filesystem=home/.steam com.usebottles.bottles
 
 # Configure MangoHud
-mkdir -p ${HOME}/.var/app/net.lutris.Lutris/config/MangoHud
-tee ${HOME}/.var/app/net.lutris.Lutris/config/MangoHud/MangoHud.conf << EOF
+mkdir -p ${HOME}/.var/app/com.usebottles.bottles/config/MangoHud
+tee ${HOME}/.var/app/com.usebottles.bottles/config/MangoHud/MangoHud.conf << EOF
 legacy_layout=0
 horizontal
 gpu_stats
