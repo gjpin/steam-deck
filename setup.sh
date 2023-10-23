@@ -174,3 +174,40 @@ WantedBy=default.target
 EOF
 
 systemctl --user enable --now syncthing.service
+
+################################################
+##### NFS
+################################################
+
+# Add NFS mount script
+tee ${HOME}/.local/bin/nfs-mount << EOF
+mkdir -p ${HOME}/nfs/games/library
+
+if pacman -Qi nfs-utils; then
+  sudo mount -t nfs -o vers=4 10.0.0.2:/srv/nfs/games/library ${HOME}/nfs/games/library
+else
+  sudo pacman -Syu
+  sudo steamos-readonly disable
+  sudo pacman-key --init
+  sudo pacman-key --populate
+  sudo pacman -S --noconfirm nfs-utils
+  sudo steamos-readonly enable
+fi
+EOF
+
+# Make NFS mount script executable
+chmod +x tee ${HOME}/.local/bin/nfs-mount
+
+# Create NFS mount desktop entry
+tee ${HOME}/Desktop/NFS-Mount.desktop << EOF
+[Desktop Entry]
+Name=Mount NFS folders
+Exec=/usr/bin/bash ${HOME}/.local/bin/nfs-mount
+Icon=steamdeck-gaming-return
+Terminal=true
+Type=Application
+StartupNotify=false
+EOF
+
+# Change desktop shortcut permissions
+chmod 755 ${HOME}/Desktop/NFS-Mount.desktop
