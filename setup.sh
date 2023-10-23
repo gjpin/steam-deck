@@ -81,6 +81,7 @@ flatpak install -y flathub org.freedesktop.Platform.GStreamer.gstreamer-vaapi/x8
 sudo flatpak install -y flathub com.github.tchx84.Flatseal
 sudo flatpak install -y flathub net.davidotek.pupgui2
 sudo flatpak install -y flathub com.moonlight_stream.Moonlight
+sudo flatpak install -y flathub com.steamgriddb.SGDBoop
 
 ################################################
 ##### Heroic Games Launcher
