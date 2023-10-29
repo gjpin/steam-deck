@@ -182,10 +182,12 @@ systemctl --user enable --now syncthing.service
 
 # Add NFS mount script
 tee ${HOME}/.local/bin/nfs-mount << EOF
-mkdir -p ${HOME}/nfs/games/library
+mkdir -p ${HOME}/nfs/games/library-wireguard
+mkdir -p ${HOME}/nfs/games/library-lan
 
 if pacman -Qi nfs-utils; then
-  sudo mount -t nfs -o vers=4 10.0.0.2:/srv/nfs/games/library ${HOME}/nfs/games/library
+  sudo mount -t nfs -o rsize=131072,wsize=131072,timeo=600,retrans=2,vers=4 10.0.0.2:/srv/nfs/games/library ${HOME}/nfs/games/library-wireguard
+  sudo mount -t nfs -o rsize=131072,wsize=131072,timeo=600,retrans=2,vers=4 10.100.100.250:/srv/nfs/games/library ${HOME}/nfs/games/library-lan
 else
   sudo pacman -Syu
   sudo steamos-readonly disable
