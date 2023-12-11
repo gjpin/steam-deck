@@ -45,71 +45,55 @@ EOF
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 sudo flatpak remote-modify flathub --enable
 
-# Restrict filesystem access
-flatpak override --user --nofilesystem=home
-flatpak override --user --nofilesystem=home/.ssh
-flatpak override --user --nofilesystem=home/.bashrc
-flatpak override --user --nofilesystem=home/.bashrc.d
-flatpak override --user --nofilesystem=home/.config
-flatpak override --user --nofilesystem=home/Sync
-flatpak override --user --nofilesystem=host
-flatpak override --user --nofilesystem=host-os
-flatpak override --user --nofilesystem=host-etc
-flatpak override --user --nofilesystem=xdg-config
-flatpak override --user --nofilesystem=xdg-cache
-flatpak override --user --nofilesystem=xdg-data
-flatpak override --user --nofilesystem=xdg-data/flatpak
-flatpak override --user --nofilesystem=xdg-documents
-flatpak override --user --nofilesystem=xdg-videos
-flatpak override --user --nofilesystem=xdg-music
-flatpak override --user --nofilesystem=xdg-pictures
-flatpak override --user --nofilesystem=xdg-desktop
-
-# Restrict talk
-flatpak override --user --no-talk-name=org.freedesktop.Flatpak
-
-# Filesystem access exemptions
-flatpak override --user --filesystem=xdg-download
-flatpak override --user --filesystem=xdg-config/gtk-3.0:ro
-flatpak override --user --filesystem=xdg-config/gtk-4.0:ro
+# Import global Flatpak overrides
+mkdir -p ${HOME}/.local/share/flatpak/overrides
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/global -o ${HOME}/.local/share/flatpak/overrides/global
 
 # Install Flatpak runtimes
-flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full/x86_64/22.08
-flatpak install -y flathub org.freedesktop.Platform.GStreamer.gstreamer-vaapi/x86_64/22.08
+flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full/x86_64/23.08
+flatpak install -y flathub org.freedesktop.Platform.GStreamer.gstreamer-vaapi/x86_64/23.08
 
 # Install applications
-sudo flatpak install -y flathub com.github.tchx84.Flatseal
-sudo flatpak install -y flathub net.davidotek.pupgui2
-sudo flatpak install -y flathub com.moonlight_stream.Moonlight
-sudo flatpak install -y flathub com.steamgriddb.SGDBoop
+flatpak install -y flathub com.github.tchx84.Flatseal
+flatpak install -y flathub com.moonlight_stream.Moonlight
+
+################################################
+##### GTK theming
+################################################
+
+# Install GTK themes
+flatpak install -y flathub org.gtk.Gtk3theme.Breeze org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
+
+# Install Gradience
+flatpak install -y flathub com.github.GradienceTeam.Gradience
+
+# Import Gradience Flatpak overrides
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.github.GradienceTeam.Gradience -o ${HOME}/.local/share/flatpak/overrides/com.github.GradienceTeam.Gradience
+
+# Apply Breeze Dark theme to GTK applications
+mkdir -p ${HOME}/.config/{gtk-3.0,gtk-4.0}
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gtk/gtk.css -o ${HOME}/.config/gtk-3.0/gtk.css
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gtk/gtk.css -o ${HOME}/.config/gtk-4.0/gtk.css
 
 ################################################
 ##### Heroic Games Launcher
 ################################################
 
 # Install Heroic Games Launcher
-sudo flatpak install -y flathub com.heroicgameslauncher.hgl
+flatpak install -y flathub com.heroicgameslauncher.hgl
 
-# Allow Heroic to access external directory and steam folder
-flatpak override --user --filesystem=home/Games/Heroic com.heroicgameslauncher.hgl
-flatpak override --user --filesystem=home/.steam com.heroicgameslauncher.hgl
+# Create directory for Heroic games
+mkdir -p ${HOME}/Games/Heroic
 
-################################################
-##### Bottles
-################################################
+# Create Documents folder
+mkdir -p ${HOME}/Games/Heroic/Prefixes/default/drive_c/users/${USER}/Documents
 
-# Install Bottles
-sudo flatpak install -y flathub com.usebottles.bottles
+# Import Flatpak overrides
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.heroicgameslauncher.hgl -o ${HOME}/.local/share/flatpak/overrides/com.heroicgameslauncher.hgl
 
-# Allow Bottles to create application shortcuts
-flatpak override --user --filesystem=xdg-data/applications com.usebottles.bottles
-
-# Allow Bottles to access Steam folder
-flatpak override --user --filesystem=home/.steam com.usebottles.bottles
-
-# Configure MangoHud
-mkdir -p ${HOME}/.var/app/com.usebottles.bottles/config/MangoHud
-tee ${HOME}/.var/app/com.usebottles.bottles/config/MangoHud/MangoHud.conf << EOF
+# Configure MangoHud for Heroic
+mkdir -p ${HOME}/.var/app/com.heroicgameslauncher.hgl/config/MangoHud
+tee ${HOME}/.var/app/com.heroicgameslauncher.hgl/config/MangoHud/MangoHud.conf << EOF
 legacy_layout=0
 horizontal
 gpu_stats
@@ -177,6 +161,29 @@ EOF
 systemctl --user enable --now syncthing.service
 
 ################################################
+##### Firefox
+################################################
+
+# Set Firefox as default browser and handler for http/s
+xdg-settings set default-web-browser org.mozilla.firefox.desktop
+xdg-mime default org.mozilla.firefox.desktop x-scheme-handler/http
+xdg-mime default org.mozilla.firefox.desktop x-scheme-handler/https
+
+# Temporarily open firefox to create profile folder
+timeout 5 flatpak run org.mozilla.firefox --headless
+
+# Set Firefox profile path
+export FIREFOX_PROFILE_PATH=$(find ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox -type d -name "*.default-release")
+
+# Import extensions
+mkdir -p ${FIREFOX_PROFILE_PATH}/extensions
+curl https://addons.mozilla.org/firefox/downloads/file/4003969/ublock_origin-latest.xpi -o ${FIREFOX_PROFILE_PATH}/extensions/uBlock0@raymondhill.net.xpi
+curl https://addons.mozilla.org/firefox/downloads/file/3932862/multi_account_containers-latest.xpi -o ${FIREFOX_PROFILE_PATH}/extensions/@testpilot-containers.xpi
+
+# Import Firefox configs
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/firefox/user.js -o ${FIREFOX_PROFILE_PATH}/user.js
+
+################################################
 ##### NFS
 ################################################
 
@@ -187,7 +194,6 @@ mkdir -p ${HOME}/nfs/games/library-lan
 
 if pacman -Qi nfs-utils; then
   sudo mount -t nfs -o noatime,nodiratime,rsize=131072,wsize=131072,timeo=600,retrans=2,vers=4 10.0.0.2:/srv/nfs/games/library ${HOME}/nfs/games/library-wireguard
-  sudo mount -t nfs -o noatime,nodiratime,rsize=131072,wsize=131072,timeo=600,retrans=2,vers=4 10.100.100.250:/srv/nfs/games/library ${HOME}/nfs/games/library-lan
 else
   sudo pacman -Syu
   sudo steamos-readonly disable
