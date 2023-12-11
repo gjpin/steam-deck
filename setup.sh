@@ -73,7 +73,7 @@ ExecStart=/usr/bin/bash -c 'echo 0 > /sys/kernel/mm/transparent_hugepage/khugepa
 WantedBy=multi-user.target
 EOF
 
-sudo systemctl enable kernel-tweaks.service
+sudo systemctl enable --now kernel-tweaks.service
 
 ################################################
 ##### Plasma
@@ -84,21 +84,20 @@ mkdir -p ${HOME}/.local/share/color-schemes
 curl -O --output-dir ${HOME}/.local/share/color-schemes https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/plasma/colors/HeroicGamesLauncher.colors
 
 # Change window decorations
-sudo -u ${NEW_USER} kwriteconfig5 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft ""
-sudo -u ${NEW_USER} kwriteconfig5 --file kwinrc --group org.kde.kdecoration2 --key ShowToolTips --type bool false
+kwriteconfig5 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft ""
+kwriteconfig5 --file kwinrc --group org.kde.kdecoration2 --key ShowToolTips --type bool false
 
 # Disable app launch feedback
-sudo -u ${NEW_USER} kwriteconfig5 --file klaunchrc --group BusyCursorSettings --key "Bouncing" --type bool false
-sudo -u ${NEW_USER} kwriteconfig5 --file klaunchrc --group FeedbackStyle --key "BusyCursor" --type bool false
+kwriteconfig5 --file klaunchrc --group BusyCursorSettings --key "Bouncing" --type bool false
+kwriteconfig5 --file klaunchrc --group FeedbackStyle --key "BusyCursor" --type bool false
 
 # Window decorations
-sudo -u ${NEW_USER} kwriteconfig5 --file kwinrulesrc --group 1 --key Description "Application settings for heroic"
-sudo -u ${NEW_USER} kwriteconfig5 --file kwinrulesrc --group 1 --key decocolor "HeroicGamesLauncher"
-sudo -u ${NEW_USER} kwriteconfig5 --file kwinrulesrc --group 1 --key decocolorrule 2
-sudo -u ${NEW_USER} kwriteconfig5 --file kwinrulesrc --group 1 --key wmclass "heroic"
-sudo -u ${NEW_USER} kwriteconfig5 --file kwinrulesrc --group 1 --key clientmachine "localhost"
-sudo -u ${NEW_USER} kwriteconfig5 --file kwinrulesrc --group 1 --key wmclassmatch 1
-
+kwriteconfig5 --file kwinrulesrc --group 1 --key Description "Application settings for heroic"
+kwriteconfig5 --file kwinrulesrc --group 1 --key decocolor "HeroicGamesLauncher"
+kwriteconfig5 --file kwinrulesrc --group 1 --key decocolorrule 2
+kwriteconfig5 --file kwinrulesrc --group 1 --key wmclass "heroic"
+kwriteconfig5 --file kwinrulesrc --group 1 --key clientmachine "localhost"
+kwriteconfig5 --file kwinrulesrc --group 1 --key wmclassmatch 1
 
 ################################################
 ##### Flatpak
@@ -117,22 +116,22 @@ mkdir -p ${HOME}/.local/share/flatpak/overrides
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/global -o ${HOME}/.local/share/flatpak/overrides/global
 
 # Install Flatpak runtimes
-flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full/x86_64/23.08
-flatpak install -y flathub org.freedesktop.Platform.GStreamer.gstreamer-vaapi/x86_64/23.08
+sudo flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full/x86_64/23.08
+sudo flatpak install -y flathub org.freedesktop.Platform.GStreamer.gstreamer-vaapi/x86_64/23.08
 
 # Install applications
-flatpak install -y flathub com.github.tchx84.Flatseal
-flatpak install -y flathub com.moonlight_stream.Moonlight
+sudo flatpak install -y flathub com.github.tchx84.Flatseal
+sudo flatpak install -y flathub com.moonlight_stream.Moonlight
 
 ################################################
 ##### GTK theming
 ################################################
 
 # Install GTK themes
-flatpak install -y flathub org.gtk.Gtk3theme.Breeze org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
+sudo flatpak install -y flathub org.gtk.Gtk3theme.Breeze org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
 
 # Install Gradience
-flatpak install -y flathub com.github.GradienceTeam.Gradience
+sudo flatpak install -y flathub com.github.GradienceTeam.Gradience
 
 # Import Gradience Flatpak overrides
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.github.GradienceTeam.Gradience -o ${HOME}/.local/share/flatpak/overrides/com.github.GradienceTeam.Gradience
@@ -143,11 +142,21 @@ curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gtk/gtk.css
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gtk/gtk.css -o ${HOME}/.config/gtk-4.0/gtk.css
 
 ################################################
+##### Utilities
+################################################
+
+# Install MangoHud
+sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.MangoHud//23.08
+
+# Install Gamescope
+sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.gamescope//23.08
+
+################################################
 ##### Heroic Games Launcher
 ################################################
 
 # Install Heroic Games Launcher
-flatpak install -y flathub com.heroicgameslauncher.hgl
+sudo flatpak install -y flathub com.heroicgameslauncher.hgl
 
 # Create directory for Heroic games
 mkdir -p ${HOME}/Games/Heroic
@@ -232,7 +241,7 @@ systemctl --user enable --now syncthing.service
 ################################################
 
 # Install Firefox
-flatpak install -y flathub org.mozilla.firefox
+sudo flatpak install -y flathub org.mozilla.firefox
 
 # Set Firefox as default browser and handler for http/s
 xdg-settings set default-web-browser org.mozilla.firefox.desktop
@@ -257,43 +266,17 @@ curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/firefox/use
 ##### NFS
 ################################################
 
-# update repo
-sudo pacman -Syu
-
-# disable read-only
-sudo steamos-readonly disable
-
-# keyring
-sudo pacman-key --init
-sudo pacman-key --populate
-
-# install nfs-utils
-sudo pacman -S --noconfirm nfs-utils
-
-# re-enable read-only
-sudo steamos-readonly enable
-
 # Add NFS mount script
-tee ${HOME}/.local/bin/nfs-mount << EOF
+tee ${HOME}/.local/bin/nfs-mount << 'EOF'
 mkdir -p ${HOME}/nfs/games/library-wireguard
-
-if pacman -Qi nfs-utils; then
-  sudo mount -t nfs -o noatime,nodiratime,rsize=131072,wsize=131072,timeo=600,retrans=2,vers=4 10.0.0.2:/srv/nfs/games/library ${HOME}/nfs/games/library-wireguard
-else
-  sudo pacman -Syu
-  sudo steamos-readonly disable
-  sudo pacman-key --init
-  sudo pacman-key --populate
-  sudo pacman -S --noconfirm nfs-utils
-  sudo steamos-readonly enable
-fi
+sudo mount -t nfs -o noatime,nodiratime,rsize=131072,wsize=131072,timeo=600,retrans=2,vers=4 10.0.0.2:/srv/nfs/games/library ${HOME}/nfs/games/library-wireguard
 EOF
 
 # Make NFS mount script executable
 chmod +x tee ${HOME}/.local/bin/nfs-mount
 
 # Create NFS mount desktop entry
-tee ${HOME}/Desktop/NFS-Mount.desktop << EOF
+tee ${HOME}/Desktop/NFS-Mount.desktop << 'EOF'
 [Desktop Entry]
 Name=Mount NFS folders
 Exec=/usr/bin/bash ${HOME}/.local/bin/nfs-mount
