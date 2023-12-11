@@ -257,10 +257,25 @@ curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/firefox/use
 ##### NFS
 ################################################
 
+# update repo
+sudo pacman -Syu
+
+# disable read-only
+sudo steamos-readonly disable
+
+# keyring
+sudo pacman-key --init
+sudo pacman-key --populate
+
+# install nfs-utils
+sudo pacman -S --noconfirm nfs-utils
+
+# re-enable read-only
+sudo steamos-readonly enable
+
 # Add NFS mount script
 tee ${HOME}/.local/bin/nfs-mount << EOF
 mkdir -p ${HOME}/nfs/games/library-wireguard
-mkdir -p ${HOME}/nfs/games/library-lan
 
 if pacman -Qi nfs-utils; then
   sudo mount -t nfs -o noatime,nodiratime,rsize=131072,wsize=131072,timeo=600,retrans=2,vers=4 10.0.0.2:/srv/nfs/games/library ${HOME}/nfs/games/library-wireguard
