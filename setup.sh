@@ -99,6 +99,9 @@ kwriteconfig5 --file kwinrulesrc --group 1 --key wmclass "heroic"
 kwriteconfig5 --file kwinrulesrc --group 1 --key clientmachine "localhost"
 kwriteconfig5 --file kwinrulesrc --group 1 --key wmclassmatch 1
 
+# Set Plasma theme
+kwriteconfig5 --file kdeglobals --group KDE --key LookAndFeelPackage "org.kde.breezedark.desktop"
+
 ################################################
 ##### Flatpak
 ################################################
