@@ -83,6 +83,9 @@ sudo systemctl enable --now kernel-tweaks.service
 mkdir -p ${HOME}/.local/share/color-schemes
 curl -O --output-dir ${HOME}/.local/share/color-schemes https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/plasma/colors/HeroicGamesLauncher.colors
 
+# Set Plasma theme
+kwriteconfig5 --file kdeglobals --group KDE --key LookAndFeelPackage "org.kde.breezedark.desktop"
+
 # Change window decorations
 kwriteconfig5 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft ""
 kwriteconfig5 --file kwinrc --group org.kde.kdecoration2 --key ShowToolTips --type bool false
@@ -98,9 +101,6 @@ kwriteconfig5 --file kwinrulesrc --group 1 --key decocolorrule 2
 kwriteconfig5 --file kwinrulesrc --group 1 --key wmclass "heroic"
 kwriteconfig5 --file kwinrulesrc --group 1 --key clientmachine "localhost"
 kwriteconfig5 --file kwinrulesrc --group 1 --key wmclassmatch 1
-
-# Set Plasma theme
-kwriteconfig5 --file kdeglobals --group KDE --key LookAndFeelPackage "org.kde.breezedark.desktop"
 
 ################################################
 ##### Flatpak
