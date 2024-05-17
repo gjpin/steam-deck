@@ -154,6 +154,11 @@ sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.MangoHud//2
 # Install Gamescope
 sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.gamescope//23.08
 
+# Install ProtonUp-Qt
+sudo flatpak install -y flathub net.davidotek.pupgui2
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/net.davidotek.pupgui2 -o ${HOME}/.local/share/flatpak/overrides/net.davidotek.pupgui2
+
+
 ################################################
 ##### Heroic Games Launcher
 ################################################
