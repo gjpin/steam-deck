@@ -158,7 +158,6 @@ sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.gamescope//
 sudo flatpak install -y flathub net.davidotek.pupgui2
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/net.davidotek.pupgui2 -o ${HOME}/.local/share/flatpak/overrides/net.davidotek.pupgui2
 
-
 ################################################
 ##### Heroic Games Launcher
 ################################################
