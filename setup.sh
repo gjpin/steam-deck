@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # Create common folders
-mkdir -p ${HOME}/.config/systemd/user/
+mkdir -p ${HOME}/.config/systemd/user
 mkdir -p ${HOME}/.local/bin
 
 ################################################
@@ -111,8 +111,8 @@ kwriteconfig5 --file kwinrulesrc --group 1 --key wmclassmatch 1
 # https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html#filesystem-permissions
 
 # Add Flathub repo
-sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-sudo flatpak remote-modify flathub --enable
+# sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+# sudo flatpak remote-modify flathub --enable
 
 # Import global Flatpak overrides
 mkdir -p ${HOME}/.local/share/flatpak/overrides
@@ -166,6 +166,8 @@ mkdir -p ${HOME}/Games/Heroic
 
 # Create Documents folder
 mkdir -p ${HOME}/Games/Heroic/Prefixes/default/drive_c/users/${USER}/Documents
+mkdir -p ${HOME}/Games/Heroic/Prefixes/Epic/drive_c/users/${USER}/Documents
+mkdir -p ${HOME}/Games/Heroic/Prefixes/GOG/drive_c/users/${USER}/Documents
 
 # Import Flatpak overrides
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.heroicgameslauncher.hgl -o ${HOME}/.local/share/flatpak/overrides/com.heroicgameslauncher.hgl
@@ -243,16 +245,10 @@ systemctl --user enable --now syncthing.service
 ##### Firefox
 ################################################
 
-# Install Firefox
-sudo flatpak install -y flathub org.mozilla.firefox
-
 # Set Firefox as default browser and handler for http/s
 xdg-settings set default-web-browser org.mozilla.firefox.desktop
 xdg-mime default org.mozilla.firefox.desktop x-scheme-handler/http
 xdg-mime default org.mozilla.firefox.desktop x-scheme-handler/https
-
-# Temporarily open firefox to create profile folder
-timeout 5 flatpak run org.mozilla.firefox --headless
 
 # Set Firefox profile path
 export FIREFOX_PROFILE_PATH=$(find ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox -type d -name "*.default-release")
@@ -264,30 +260,3 @@ curl https://addons.mozilla.org/firefox/downloads/file/3932862/multi_account_con
 
 # Import Firefox configs
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/firefox/user.js -o ${FIREFOX_PROFILE_PATH}/user.js
-
-################################################
-##### NFS
-################################################
-
-# Add NFS mount script
-tee ${HOME}/.local/bin/nfs-mount << 'EOF'
-mkdir -p ${HOME}/nfs/games/library-wireguard
-sudo mount -t nfs -o noatime,nodiratime,rsize=131072,wsize=131072,timeo=600,retrans=2,vers=4 10.0.0.2:/srv/nfs/games/library ${HOME}/nfs/games/library-wireguard
-EOF
-
-# Make NFS mount script executable
-chmod +x tee ${HOME}/.local/bin/nfs-mount
-
-# Create NFS mount desktop entry
-tee ${HOME}/Desktop/NFS-Mount.desktop << 'EOF'
-[Desktop Entry]
-Name=Mount NFS folders
-Exec=/usr/bin/bash ${HOME}/.local/bin/nfs-mount
-Icon=steamdeck-gaming-return
-Terminal=true
-Type=Application
-StartupNotify=false
-EOF
-
-# Change desktop shortcut permissions
-chmod 755 ${HOME}/Desktop/NFS-Mount.desktop
