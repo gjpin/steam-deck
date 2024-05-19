@@ -122,10 +122,6 @@ curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/glo
 sudo flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full/x86_64/23.08
 sudo flatpak install -y flathub org.freedesktop.Platform.GStreamer.gstreamer-vaapi/x86_64/23.08
 
-# Install applications
-sudo flatpak install -y flathub com.github.tchx84.Flatseal
-sudo flatpak install -y flathub com.moonlight_stream.Moonlight
-
 ################################################
 ##### GTK theming
 ################################################
@@ -139,14 +135,24 @@ sudo flatpak install -y flathub com.github.GradienceTeam.Gradience
 # Import Gradience Flatpak overrides
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.github.GradienceTeam.Gradience -o ${HOME}/.local/share/flatpak/overrides/com.github.GradienceTeam.Gradience
 
-# Apply Breeze Dark theme to GTK applications
+# Import vapor preset
+mkdir -p ${HOME}/.var/app/com.github.GradienceTeam.Gradience/config/presets/user
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gradience/vapor.json -o ${HOME}/.var/app/com.github.GradienceTeam.Gradience/config/presets/user/vapor.json
+
+# Apply vapor theme to GTK applications
 mkdir -p ${HOME}/.config/{gtk-3.0,gtk-4.0}
-curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gtk/gtk.css -o ${HOME}/.config/gtk-3.0/gtk.css
-curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gtk/gtk.css -o ${HOME}/.config/gtk-4.0/gtk.css
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gtk/gtk-vapor.css -o ${HOME}/.config/gtk-3.0/gtk.css
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gtk/gtk-vapor.css -o ${HOME}/.config/gtk-4.0/gtk.css
 
 ################################################
 ##### Utilities
 ################################################
+
+# Install Flatseal
+sudo flatpak install -y flathub com.github.tchx84.Flatseal
+
+# Install Moonlight
+sudo flatpak install -y flathub com.moonlight_stream.Moonlight
 
 # Install MangoHud
 sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.MangoHud//23.08
