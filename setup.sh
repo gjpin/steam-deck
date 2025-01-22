@@ -79,10 +79,6 @@ sudo systemctl enable --now kernel-tweaks.service
 ##### Plasma
 ################################################
 
-# Import Plasma color schemes
-mkdir -p ${HOME}/.local/share/color-schemes
-curl -O --output-dir ${HOME}/.local/share/color-schemes https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/plasma/colors/HeroicGamesLauncher.colors
-
 # Set Plasma theme
 kwriteconfig5 --file kdeglobals --group KDE --key LookAndFeelPackage "org.kde.breezedark.desktop"
 
@@ -94,14 +90,6 @@ kwriteconfig5 --file kwinrc --group org.kde.kdecoration2 --key ShowToolTips --ty
 kwriteconfig5 --file klaunchrc --group BusyCursorSettings --key "Bouncing" --type bool false
 kwriteconfig5 --file klaunchrc --group FeedbackStyle --key "BusyCursor" --type bool false
 
-# Window decorations
-kwriteconfig5 --file kwinrulesrc --group 1 --key Description "Application settings for heroic"
-kwriteconfig5 --file kwinrulesrc --group 1 --key decocolor "HeroicGamesLauncher"
-kwriteconfig5 --file kwinrulesrc --group 1 --key decocolorrule 2
-kwriteconfig5 --file kwinrulesrc --group 1 --key wmclass "heroic"
-kwriteconfig5 --file kwinrulesrc --group 1 --key clientmachine "localhost"
-kwriteconfig5 --file kwinrulesrc --group 1 --key wmclassmatch 1
-
 ################################################
 ##### Flatpak
 ################################################
@@ -111,16 +99,18 @@ kwriteconfig5 --file kwinrulesrc --group 1 --key wmclassmatch 1
 # https://docs.flatpak.org/en/latest/sandbox-permissions-reference.html#filesystem-permissions
 
 # Add Flathub repo
-# sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-# sudo flatpak remote-modify flathub --enable
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+sudo flatpak remote-modify flathub --enable
 
 # Import global Flatpak overrides
 mkdir -p ${HOME}/.local/share/flatpak/overrides
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/global -o ${HOME}/.local/share/flatpak/overrides/global
 
 # Install Flatpak runtimes
-sudo flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full/x86_64/23.08
-sudo flatpak install -y flathub org.freedesktop.Platform.GStreamer.gstreamer-vaapi/x86_64/23.08
+sudo flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full//24.08
+sudo flatpak install -y flathub org.freedesktop.Platform.GL.default//24.08extra
+sudo flatpak install -y flathub org.freedesktop.Platform.GL32.default//24.08extra
+sudo flatpak install -y flathub org.freedesktop.Sdk//24.08
 
 ################################################
 ##### GTK theming
@@ -129,40 +119,30 @@ sudo flatpak install -y flathub org.freedesktop.Platform.GStreamer.gstreamer-vaa
 # Install GTK themes
 sudo flatpak install -y flathub org.gtk.Gtk3theme.Breeze org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
 
-# Install Gradience
-sudo flatpak install -y flathub com.github.GradienceTeam.Gradience
-
-# Import Gradience Flatpak overrides
-curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.github.GradienceTeam.Gradience -o ${HOME}/.local/share/flatpak/overrides/com.github.GradienceTeam.Gradience
-
-# Import vapor preset
-mkdir -p ${HOME}/.var/app/com.github.GradienceTeam.Gradience/config/presets/user
-curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gradience/vapor.json -o ${HOME}/.var/app/com.github.GradienceTeam.Gradience/config/presets/user/vapor.json
-
-# Apply vapor theme to GTK applications
-mkdir -p ${HOME}/.config/{gtk-3.0,gtk-4.0}
-curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gtk/gtk-vapor.css -o ${HOME}/.config/gtk-3.0/gtk.css
-curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/gtk/gtk-vapor.css -o ${HOME}/.config/gtk-4.0/gtk.css
-
 ################################################
-##### Utilities
+##### Gaming utilities
 ################################################
 
-# Install Flatseal
-sudo flatpak install -y flathub com.github.tchx84.Flatseal
-
-# Install Moonlight
-sudo flatpak install -y flathub com.moonlight_stream.Moonlight
+# References:
+# https://wiki.archlinux.org/title/MangoHud
 
 # Install MangoHud
-sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.MangoHud//23.08
+sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.MangoHud//24.08
 
 # Install Gamescope
-sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.gamescope//23.08
+sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.gamescope//24.08
 
 # Install ProtonUp-Qt
 sudo flatpak install -y flathub net.davidotek.pupgui2
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/net.davidotek.pupgui2 -o ${HOME}/.local/share/flatpak/overrides/net.davidotek.pupgui2
+
+# Install Protontricks
+sudo flatpak install -y flathub com.github.Matoking.protontricks
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.github.Matoking.protontricks -o ${HOME}/.local/share/flatpak/overrides/com.github.Matoking.protontricks
+
+# Install Moonlight
+sudo flatpak install -y flathub com.moonlight_stream.Moonlight
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.moonlight_stream.Moonlight -o ${HOME}/.local/share/flatpak/overrides/com.moonlight_stream.Moonlight
 
 ################################################
 ##### Heroic Games Launcher
@@ -171,33 +151,52 @@ curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/net
 # Install Heroic Games Launcher
 sudo flatpak install -y flathub com.heroicgameslauncher.hgl
 
-# Create directory for Heroic games
-mkdir -p ${HOME}/Games/Heroic
-
-# Create Documents folder
-mkdir -p ${HOME}/Games/Heroic/Prefixes/default/drive_c/users/${USER}/Documents
-mkdir -p ${HOME}/Games/Heroic/Prefixes/Epic/drive_c/users/${USER}/Documents
-mkdir -p ${HOME}/Games/Heroic/Prefixes/GOG/drive_c/users/${USER}/Documents
+# Create directories for Heroic games and prefixes
+mkdir -p ${HOME}/Games/Heroic/Prefixes
 
 # Import Flatpak overrides
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.heroicgameslauncher.hgl -o ${HOME}/.local/share/flatpak/overrides/com.heroicgameslauncher.hgl
 
 # Configure MangoHud for Heroic
 mkdir -p ${HOME}/.var/app/com.heroicgameslauncher.hgl/config/MangoHud
-tee ${HOME}/.var/app/com.heroicgameslauncher.hgl/config/MangoHud/MangoHud.conf << EOF
-legacy_layout=0
-horizontal
-gpu_stats
-cpu_stats
-ram
-fps
-frametime=0
-hud_no_margin
-table_columns=14
-frame_timing=1
-engine_version
-vulkan_driver
-EOF
+curl -sSL https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/mangohud/MangoHud.conf -o ${HOME}/.var/app/com.heroicgameslauncher.hgl/config/MangoHud/MangoHud.conf
+
+################################################
+##### Bottles
+################################################
+
+# Install Bottles
+sudo flatpak install -y flathub com.usebottles.bottles
+
+# Create directories for Bottles
+mkdir -p ${HOME}/Games/Bottles
+
+# Import Flatpak overrides
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.usebottles.bottles -o ${HOME}/.local/share/flatpak/overrides/com.usebottles.bottles
+
+# Configure MangoHud for Bottles
+mkdir -p ${HOME}/.var/app/com.usebottles.bottles/config/MangoHud
+curl -sSL https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/mangohud/MangoHud.conf -o ${HOME}/.var/app/com.usebottles.bottles/config/MangoHud/MangoHud.conf
+
+################################################
+##### Firefox
+################################################
+
+# Set Firefox as default browser and handler for http/s
+xdg-settings set default-web-browser org.mozilla.firefox.desktop
+xdg-mime default org.mozilla.firefox.desktop x-scheme-handler/http
+xdg-mime default org.mozilla.firefox.desktop x-scheme-handler/https
+
+# Set Firefox profile path
+export FIREFOX_PROFILE_PATH=$(find ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox -type d -name "*.default-release")
+
+# Import extensions
+mkdir -p ${FIREFOX_PROFILE_PATH}/extensions
+curl https://addons.mozilla.org/firefox/downloads/file/4003969/ublock_origin-latest.xpi -o ${FIREFOX_PROFILE_PATH}/extensions/uBlock0@raymondhill.net.xpi
+curl https://addons.mozilla.org/firefox/downloads/file/3932862/multi_account_containers-latest.xpi -o ${FIREFOX_PROFILE_PATH}/extensions/@testpilot-containers.xpi
+
+# Import Firefox configs
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/firefox/user.js -o ${FIREFOX_PROFILE_PATH}/user.js
 
 ################################################
 ##### Syncthing
@@ -250,23 +249,3 @@ WantedBy=default.target
 EOF
 
 systemctl --user enable --now syncthing.service
-
-################################################
-##### Firefox
-################################################
-
-# Set Firefox as default browser and handler for http/s
-xdg-settings set default-web-browser org.mozilla.firefox.desktop
-xdg-mime default org.mozilla.firefox.desktop x-scheme-handler/http
-xdg-mime default org.mozilla.firefox.desktop x-scheme-handler/https
-
-# Set Firefox profile path
-export FIREFOX_PROFILE_PATH=$(find ${HOME}/.var/app/org.mozilla.firefox/.mozilla/firefox -type d -name "*.default-release")
-
-# Import extensions
-mkdir -p ${FIREFOX_PROFILE_PATH}/extensions
-curl https://addons.mozilla.org/firefox/downloads/file/4003969/ublock_origin-latest.xpi -o ${FIREFOX_PROFILE_PATH}/extensions/uBlock0@raymondhill.net.xpi
-curl https://addons.mozilla.org/firefox/downloads/file/3932862/multi_account_containers-latest.xpi -o ${FIREFOX_PROFILE_PATH}/extensions/@testpilot-containers.xpi
-
-# Import Firefox configs
-curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/firefox/user.js -o ${FIREFOX_PROFILE_PATH}/user.js
