@@ -107,17 +107,17 @@ mkdir -p ${HOME}/.local/share/flatpak/overrides
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/global -o ${HOME}/.local/share/flatpak/overrides/global
 
 # Install Flatpak runtimes
-sudo flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full//24.08
-sudo flatpak install -y flathub org.freedesktop.Platform.GL.default//24.08extra
-sudo flatpak install -y flathub org.freedesktop.Platform.GL32.default//24.08extra
-sudo flatpak install -y flathub org.freedesktop.Sdk//24.08
+flatpak install -y flathub org.freedesktop.Platform.ffmpeg-full//24.08
+flatpak install -y flathub org.freedesktop.Platform.GL.default//24.08extra
+flatpak install -y flathub org.freedesktop.Platform.GL32.default//24.08extra
+flatpak install -y flathub org.freedesktop.Sdk//24.08
 
 ################################################
 ##### GTK theming
 ################################################
 
 # Install GTK themes
-sudo flatpak install -y flathub org.gtk.Gtk3theme.Breeze org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
+flatpak install -y flathub org.gtk.Gtk3theme.Breeze org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
 
 ################################################
 ##### Applications
@@ -135,21 +135,21 @@ curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com
 # https://wiki.archlinux.org/title/MangoHud
 
 # Install MangoHud
-sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.MangoHud//24.08
+flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.MangoHud//24.08
 
 # Install Gamescope
-sudo flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.gamescope//24.08
+flatpak install -y flathub org.freedesktop.Platform.VulkanLayer.gamescope//24.08
 
 # Install ProtonUp-Qt
-sudo flatpak install -y flathub net.davidotek.pupgui2
+flatpak install -y flathub net.davidotek.pupgui2
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/net.davidotek.pupgui2 -o ${HOME}/.local/share/flatpak/overrides/net.davidotek.pupgui2
 
 # Install Protontricks
-sudo flatpak install -y flathub com.github.Matoking.protontricks
+flatpak install -y flathub com.github.Matoking.protontricks
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.github.Matoking.protontricks -o ${HOME}/.local/share/flatpak/overrides/com.github.Matoking.protontricks
 
 # Install Moonlight
-sudo flatpak install -y flathub com.moonlight_stream.Moonlight
+flatpak install -y flathub com.moonlight_stream.Moonlight
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.moonlight_stream.Moonlight -o ${HOME}/.local/share/flatpak/overrides/com.moonlight_stream.Moonlight
 
 ################################################
@@ -157,7 +157,7 @@ curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com
 ################################################
 
 # Install Heroic Games Launcher
-sudo flatpak install -y flathub com.heroicgameslauncher.hgl
+flatpak install -y flathub com.heroicgameslauncher.hgl
 
 # Create directories for Heroic games and prefixes
 mkdir -p ${HOME}/Games/Heroic/Prefixes
@@ -174,7 +174,7 @@ curl -sSL https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/mangoh
 ################################################
 
 # Install Bottles
-sudo flatpak install -y flathub com.usebottles.bottles
+flatpak install -y flathub com.usebottles.bottles
 
 # Create directories for Bottles
 mkdir -p ${HOME}/Games/Bottles

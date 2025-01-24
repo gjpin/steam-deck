@@ -5,7 +5,7 @@
 ################################################
 
 # Install Bottles
-sudo flatpak install -y flathub com.usebottles.bottles
+flatpak install -y flathub com.usebottles.bottles
 
 # Allow Bottles to create application shortcuts
 flatpak override --user --filesystem=xdg-data/applications com.usebottles.bottles
@@ -35,7 +35,7 @@ EOF
 ################################################
 
 # Install Lutris
-sudo flatpak install -y flathub net.lutris.Lutris
+flatpak install -y flathub net.lutris.Lutris
 
 # Allow Lutris to create application shortcuts
 flatpak override --user --filesystem=xdg-data/applications net.lutris.Lutris
