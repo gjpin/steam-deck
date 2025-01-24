@@ -120,6 +120,14 @@ sudo flatpak install -y flathub org.freedesktop.Sdk//24.08
 sudo flatpak install -y flathub org.gtk.Gtk3theme.Breeze org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
 
 ################################################
+##### Applications
+################################################
+
+# Install applications
+flatpak install -y flathub com.discordapp.Discord
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.discordapp.Discord -o ${HOME}/.local/share/flatpak/overrides/com.discordapp.Discord
+
+################################################
 ##### Gaming utilities
 ################################################
 
