@@ -112,12 +112,28 @@ flatpak install -y flathub org.freedesktop.Platform.GL.default//24.08extra
 flatpak install -y flathub org.freedesktop.Platform.GL32.default//24.08extra
 flatpak install -y flathub org.freedesktop.Sdk//24.08
 
+# Use KDE file picker in Flatpak applications
+mkdir -p ${HOME}/.config/xdg-desktop-portal
+tee -a ${HOME}/.config/xdg-desktop-portal/portals.conf << 'EOF'
+[preferred]
+default=kde
+org.freedesktop.impl.portal.FileChooser=kde
+EOF
+
 ################################################
-##### GTK theming
+##### Theming and UX
 ################################################
 
 # Install GTK themes
 flatpak install -y flathub org.gtk.Gtk3theme.Breeze org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark
+
+# Use KDE file picker in GTK applications
+sudo tee -a /etc/environment << EOF
+
+# KDE file picker
+GDK_DEBUG=portals
+GTK_USE_PORTAL=1
+EOF
 
 ################################################
 ##### Applications
