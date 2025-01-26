@@ -101,6 +101,8 @@ kwriteconfig5 --file klaunchrc --group FeedbackStyle --key "BusyCursor" --type b
 # Add Flathub repo
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 sudo flatpak remote-modify flathub --enable
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak update
 
 # Import global Flatpak overrides
 mkdir -p ${HOME}/.local/share/flatpak/overrides
