@@ -169,6 +169,10 @@ curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com
 flatpak install -y flathub com.moonlight_stream.Moonlight
 curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.moonlight_stream.Moonlight -o ${HOME}/.local/share/flatpak/overrides/com.moonlight_stream.Moonlight
 
+# Install SGDBoop (SteamGridDB)
+flatpak install -y flathub com.steamgriddb.SGDBoop
+curl https://raw.githubusercontent.com/gjpin/steam-deck/main/configs/flatpak/com.steamgriddb.SGDBoop -o ${HOME}/.local/share/flatpak/overrides/com.steamgriddb.SGDBoop
+
 ################################################
 ##### Heroic Games Launcher
 ################################################
