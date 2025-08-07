@@ -1,0 +1,2 @@
+[Context]
+filesystems=!home;!host;!home/.var/app/;home/Games;home/.local/share/Steam/steamapps/compatdata;home/.steam/steam/steamapps/compatdata;home/.var/app/com.heroicgameslauncher.hgl/config/heroic;

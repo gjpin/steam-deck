@@ -1,0 +1,8 @@
+---
+roots:
+  - store: steam
+    path: /home/$USER/.local/share/Steam
+  - store: heroic
+    path: /home/$USER/.var/app/com.heroicgameslauncher.hgl/config/heroic
+backup:
+  path: /home/$USER/Games/save-backups-pc
