@@ -1,0 +1,97 @@
+{
+    "env": {
+        "PATH": "$(PATH):$(HOME)\/.local\/bin"
+    },
+    "apps": [
+        {
+            "name": "Auto",
+            "output": "",
+            "cmd": "",
+            "exclude-global-prep-cmd": "false",
+            "elevated": "false",
+            "prep-cmd": [
+                {
+                    "do": "gnome-randr --output DP-2 --mode %SUNSHINE_CLIENT_WIDTH%x%SUNSHINE_CLIENT_HEIGHT% --rate %SUNSHINE_CLIENT_FPS%",
+                    "undo": "gnome-randr --output DP-2 --off"
+                },
+                {
+                    "do": "gnome-randr --output HDMI-1 --off",
+                    "undo": "gnome-randr --output HDMI-1 --mode 3840x2160 --rate 60"
+                }
+            ],
+            "image-path": ""
+        },
+        {
+            "name": "800p",
+            "output": "",
+            "cmd": "",
+            "exclude-global-prep-cmd": "false",
+            "elevated": "false",
+            "prep-cmd": [
+                {
+                    "do": "gnome-randr --output DP-2 --mode 1280x800 --rate 60",
+                    "undo": "gnome-randr --output DP-2 --off"
+                },
+                {
+                    "do": "gnome-randr --output HDMI-1 --off",
+                    "undo": "gnome-randr --output HDMI-1 --mode 3840x2160 --rate 60"
+                }
+            ],
+            "image-path": ""
+        },
+        {
+            "name": "1080p",
+            "output": "",
+            "cmd": "",
+            "exclude-global-prep-cmd": "false",
+            "elevated": "false",
+            "prep-cmd": [
+                {
+                    "do": "gnome-randr --output DP-2 --mode 1920x1080 --rate 60",
+                    "undo": "gnome-randr --output DP-2 --off"
+                },
+                {
+                    "do": "gnome-randr --output HDMI-1 --off",
+                    "undo": "gnome-randr --output HDMI-1 --mode 3840x2160 --rate 60"
+                }
+            ],
+            "image-path": ""
+        },
+        {
+            "name": "1440p",
+            "output": "",
+            "cmd": "",
+            "exclude-global-prep-cmd": "false",
+            "elevated": "false",
+            "prep-cmd": [
+                {
+                    "do": "gnome-randr --output DP-2 --mode 2560x1440 --rate 60",
+                    "undo": "gnome-randr --output DP-2 --off"
+                },
+                {
+                    "do": "gnome-randr --output HDMI-1 --off",
+                    "undo": "gnome-randr --output HDMI-1 --mode 3840x2160 --rate 60"
+                }
+            ],
+            "image-path": ""
+        },
+        {
+            "name": "2160p",
+            "output": "",
+            "cmd": "",
+            "exclude-global-prep-cmd": "false",
+            "elevated": "false",
+            "prep-cmd": [
+                {
+                    "do": "gnome-randr --output DP-2 --mode 3840x2160 --rate 60",
+                    "undo": "gnome-randr --output DP-2 --off"
+                },
+                {
+                    "do": "gnome-randr --output HDMI-1 --off",
+                    "undo": "gnome-randr --output HDMI-1 --mode 3840x2160 --rate 60"
+                }
+            ],
+            "image-path": ""
+        }
+    ]
+}

@@ -1,0 +1,5 @@
+[Context]
+filesystems=host-os:ro;xdg-data/applications:ro;xdg-data/Steam:ro;xdg-config/openxr:create;xdg-config/openvr:create;
+
+[Session Bus Policy]
+org.freedesktop.Flatpak=talk

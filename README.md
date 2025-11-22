@@ -1,44 +1,25 @@
-# Setup Guide
+# Quickstart
+1. Update SteamOS and reboot
+2. Run setup.sh
+3. Copy SSH public key to $HOME/.ssh/authorized_keys
+4. Copy wireguard key to /etc/wireguard and enable connection: `sudo nmcli con import type wireguard file /etc/wireguard/wg0.conf`
+5. Configure Heroic:
+   * Login to GoG / Epic
+   * General -> Set folder for new wine prefix: $HOME/Games/Heroic/Prefixes
+   * General -> Automatically update games
+   * General -> Add games to Steam automatically
+   * Game Defaults -> WinePrefix folder: $HOME/Games/Heroic/Prefixes
+   * Add Heroic to Steam (Steam -> Add a Game -> Heroic)
+6. In Steam Game Mode:
+   * Install Decky Loader plugins
+      * SteamGridDB
+      * HLTB for Deck
+   * (HTPC only) Settings -> Display -> Maximum game resolution -> 3840x2160
+7. Configure RetroDeck:
+   * Open RetroDeck and go through setup
+   * Add RetroDeck to Steam (Steam -> Add a Game -> RetroDeck)
+   * Open RetroDeck through gamemode and configure:
+      * UI settings -> theme -> Slate
+      * Scraper -> Account settings -> Screenscraper username/password
 
-1. Setup user password: `passwd`
-2. mkdir -p ${HOME}/.ssh
-2. Add public key to ${HOME}/.ssh/authorized_keys
-3. Setup SSHD:
-```bash
-sudo tee /etc/ssh/sshd_config << EOF
-Port 22
-PermitRootLogin no
-AuthorizedKeysFile      .ssh/authorized_keys
-PasswordAuthentication no
-PermitEmptyPasswords no
-UsePAM yes
-PrintMotd no
-Subsystem       sftp    /usr/lib/ssh/sftp-server
-EOF
-```
-4. Enable SSHD: `sudo systemctl enable --now sshd.service`
-5. Create Wireguard folder: `sudo mkdir -p /etc/wireguard`
-6. Copy Wireguard config to `/etc/wireguard/wg0.conf`
-7. Import wireguard connection to networkmanager: `sudo nmcli con import type wireguard file /etc/wireguard/wg0.conf`
-
-# Moonlight steam shortcuts
-```
-"/usr/bin/flatpak"
-
-flatpak run --command="moonlight" com.moonlight_stream.Moonlight stream --help
-```
-
-## 800p
-```
-"run" "--branch=stable" "--arch=x86_64" "--command=moonlight" "com.moonlight_stream.Moonlight" "--resolution=1280x800" "--vsync" "--fps=60" "--bitrate=12000" "--packet-size=1392" "--display-mode=borderless" "--audio-config=stereo" "--multi-controller" "--quit-after" "--no-mouse-buttons-swap" "--no-game-optimization" "--no-audio-on-host" "--frame-pacing" "--mute-on-focus-loss" "--no-swap-gamepad-buttons" "--keep-awake" "--no-performance-overlay" "--no-hdr" "--video-codec=AV1" "--video-decoder=hardware" stream "10.100.100.250" "Desktop 800p"
-```
-
-## 1080p
-```
-"run" "--branch=stable" "--arch=x86_64" "--command=moonlight" "com.moonlight_stream.Moonlight" "--resolution= 1920x1080" "--vsync" "--fps=60" "--bitrate=40000" "--packet-size=1392" "--display-mode=fullscreen" "--audio-config=stereo" "--multi-controller" "--quit-after" "--no-mouse-buttons-swap" "--no-game-optimization" "--no-audio-on-host" "--frame-pacing" "--mute-on-focus-loss" "--no-swap-gamepad-buttons" "--keep-awake" "--no-performance-overlay" "--no-hdr" "--video-codec=AV1" "--video-decoder=hardware" stream "10.100.100.250" "Desktop 1080p"
-```
-
-## 1440p
-```
-"run" "--branch=stable" "--arch=x86_64" "--command=moonlight" "com.moonlight_stream.Moonlight" "--resolution=2560x1440" "--vsync" "--fps=60" "--bitrate=120000" "--packet-size=1392" "--display-mode=fullscreen" "--audio-config=stereo" "--multi-controller" "--quit-after" "--no-mouse-buttons-swap" "--no-game-optimization" "--no-audio-on-host" "--frame-pacing" "--mute-on-focus-loss" "--no-swap-gamepad-buttons" "--keep-awake" "--no-performance-overlay" "--no-hdr" "--video-codec=AV1" "--video-decoder=hardware" stream "10.100.100.250" "Desktop 1440p"
-```
+8. Reboot

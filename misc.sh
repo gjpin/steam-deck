@@ -1,6 +1,74 @@
 #!/usr/bin/bash
 
 ################################################
+##### Moonlight
+################################################
+
+# Moonlight steam shortcuts
+```
+"/usr/bin/flatpak"
+
+flatpak run --command="moonlight" com.moonlight_stream.Moonlight stream --help
+```
+
+## 800p
+```
+"run" "--branch=stable" "--arch=x86_64" "--command=moonlight" "com.moonlight_stream.Moonlight" "--resolution=1280x800" "--vsync" "--fps=60" "--bitrate=12000" "--packet-size=1392" "--display-mode=borderless" "--audio-config=stereo" "--multi-controller" "--quit-after" "--no-mouse-buttons-swap" "--no-game-optimization" "--no-audio-on-host" "--frame-pacing" "--mute-on-focus-loss" "--no-swap-gamepad-buttons" "--keep-awake" "--no-performance-overlay" "--no-hdr" "--video-codec=AV1" "--video-decoder=hardware" stream "10.100.100.250" "Desktop 800p"
+```
+
+## 1080p
+```
+"run" "--branch=stable" "--arch=x86_64" "--command=moonlight" "com.moonlight_stream.Moonlight" "--resolution= 1920x1080" "--vsync" "--fps=60" "--bitrate=40000" "--packet-size=1392" "--display-mode=fullscreen" "--audio-config=stereo" "--multi-controller" "--quit-after" "--no-mouse-buttons-swap" "--no-game-optimization" "--no-audio-on-host" "--frame-pacing" "--mute-on-focus-loss" "--no-swap-gamepad-buttons" "--keep-awake" "--no-performance-overlay" "--no-hdr" "--video-codec=AV1" "--video-decoder=hardware" stream "10.100.100.250" "Desktop 1080p"
+```
+
+## 1440p
+```
+"run" "--branch=stable" "--arch=x86_64" "--command=moonlight" "com.moonlight_stream.Moonlight" "--resolution=2560x1440" "--vsync" "--fps=60" "--bitrate=120000" "--packet-size=1392" "--display-mode=fullscreen" "--audio-config=stereo" "--multi-controller" "--quit-after" "--no-mouse-buttons-swap" "--no-game-optimization" "--no-audio-on-host" "--frame-pacing" "--mute-on-focus-loss" "--no-swap-gamepad-buttons" "--keep-awake" "--no-performance-overlay" "--no-hdr" "--video-codec=AV1" "--video-decoder=hardware" stream "10.100.100.250" "Desktop 1440p"
+```
+
+################################################
+##### Tweaks
+################################################
+
+# References:
+# https://github.com/CryoByte33/steam-deck-utilities/blob/main/docs/tweak-explanation.md
+# https://wiki.cachyos.org/general_info/general_system_tweaks/
+
+# Enable trim operations
+sudo systemctl enable --now fstrim.timer
+
+# Split Lock Mitigate - default: 1
+echo 'kernel.split_lock_mitigate=0' | sudo tee /etc/sysctl.d/99-splitlock.conf
+
+# Compaction Proactiveness - default: 20
+echo 'vm.compaction_proactiveness=0' | sudo tee /etc/sysctl.d/99-compaction_proactiveness.conf
+
+# Page Lock Unfairness - default: 5
+echo 'vm.page_lock_unfairness=1' | sudo tee /etc/sysctl.d/99-page_lock_unfairness.conf
+
+# Hugepage Defragmentation - default: 1
+# Transparent Hugepages - default: always
+# Shared Memory in Transparent Hugepages - default: never
+sudo tee /etc/systemd/system/kernel-tweaks.service << 'EOF'
+[Unit]
+Description=Set kernel tweaks
+After=multi-user.target
+StartLimitBurst=0
+
+[Service]
+Type=oneshot
+Restart=on-failure
+ExecStart=/usr/bin/bash -c 'echo always > /sys/kernel/mm/transparent_hugepage/enabled'
+ExecStart=/usr/bin/bash -c 'echo advise > /sys/kernel/mm/transparent_hugepage/shmem_enabled'
+ExecStart=/usr/bin/bash -c 'echo 0 > /sys/kernel/mm/transparent_hugepage/khugepaged/defrag'
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl enable --now kernel-tweaks.service
+
+################################################
 ##### Bottles
 ################################################
 

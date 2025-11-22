@@ -1,0 +1,2 @@
+[Context]
+filesystems=!home;!host;home/Games/Emulation;/var/mnt/data1/Games/Emulation;/var/mnt/data2/Games/Emulation;
