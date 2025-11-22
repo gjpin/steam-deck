@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# Logging functions for Bazzite setup scripts
+# Logging functions for setup scripts
 # Provides colored, timestamped logging to stdout
 
 # Colors
