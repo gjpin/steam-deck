@@ -21,6 +21,7 @@
    * Open RetroDeck and go through setup
    * Add RetroDeck to Steam (Steam -> Add a Game -> RetroDeck)
    * Open RetroDeck through gamemode and configure:
+      * Set Steam Input profile
       * UI settings -> theme -> Slate
       * Scraper -> Account settings -> Screenscraper username/password
 8. Reboot
