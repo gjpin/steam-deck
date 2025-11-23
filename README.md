@@ -24,4 +24,8 @@
       * Set Steam Input profile
       * UI settings -> theme -> Slate
       * Scraper -> Account settings -> Screenscraper username/password
-8. Reboot
+8. Add 3 folders to Syncthing:
+   * saves-pc: $HOME/Games/saves-pc
+   * saves-retrodeck: $HOME/Games/Emulation/retrodeck/saves
+   * saves-emulation: $HOME/Games/Emulation/saves
+9. Reboot
