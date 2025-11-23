@@ -5,4 +5,6 @@ roots:
   - store: heroic
     path: /home/$USER/.var/app/com.heroicgameslauncher.hgl/config/heroic
 backup:
-  path: /home/$USER/Games/save-backups-pc
+  path: /home/$USER/Games/saves-pc
+restore:
+  path: /home/$USER/Games/saves-pc
