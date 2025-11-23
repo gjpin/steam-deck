@@ -1,4 +1,5 @@
 ---
+theme: dark
 roots:
   - store: steam
     path: /home/$USER/.local/share/Steam
