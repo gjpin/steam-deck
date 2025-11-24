@@ -22,14 +22,14 @@ cat ./configs/ludusavi/config-steam.yaml | envsubst > ${HOME}/.var/app/com.githu
 # https://github.com/mtkennerly/ludusavi/blob/master/docs/help/backup-automation.md
 # https://github.com/mtkennerly/ludusavi/blob/master/docs/cli.md
 # Create 'heroic' watcher script
-tee ${HOME}/.local/bin/ludusavi-heroic.sh << 'EOF'
+tee ${HOME}/.local/bin/ludusavi-heroic.sh << EOF
 #!/usr/bin/bash
 
 PROCESS="heroic"
 
 while true; do
     # Wait for Heroic to start
-    while ! pgrep -x "$PROCESS" >/dev/null; do
+    while ! pgrep -x "\$PROCESS" >/dev/null; do
         sleep 1
     done
 
@@ -40,7 +40,7 @@ while true; do
         restore --force
 
     # Wait for Heroic to exit
-    while pgrep -x "$PROCESS" >/dev/null; do
+    while pgrep -x "\$PROCESS" >/dev/null; do
         sleep 1
     done
 
@@ -81,7 +81,7 @@ systemctl --user enable ludusavi-heroic.service
 
 # Set automatic backups for Steam save games
 # https://github.com/mtkennerly/ludusavi/blob/master/docs/help/backup-automation.md
-tee ~/.config/systemd/user/ludusavi-steam.service << 'EOF'
+tee ~/.config/systemd/user/ludusavi-steam.service << EOF
 [Unit]
 Description="Ludusavi - Steam"
 
