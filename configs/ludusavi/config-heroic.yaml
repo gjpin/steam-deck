@@ -1,11 +1,9 @@
 ---
 theme: dark
 roots:
-  - store: steam
-    path: /home/$USER/.local/share/Steam
   - store: heroic
     path: /home/$USER/.var/app/com.heroicgameslauncher.hgl/config/heroic
 backup:
-  path: /home/$USER/Games/saves-pc
+  path: /home/$USER/Games/saves-heroic
 restore:
-  path: /home/$USER/Games/saves-pc
+  path: /home/$USER/Games/saves-heroic

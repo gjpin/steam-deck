@@ -1,0 +1,9 @@
+---
+theme: dark
+roots:
+  - store: steam
+    path: /home/$USER/.local/share/Steam
+backup:
+  path: /home/$USER/Games/saves-steam
+restore:
+  path: /home/$USER/Games/saves-steam
