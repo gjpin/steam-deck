@@ -101,7 +101,9 @@ Unit=ludusavi-backup.service
 WantedBy=timers.target
 EOF
 
-systemctl --user enable ${HOME}/.config/systemd/user/ludusavi-steam.timer
+# Enable systemd service
+systemctl --user daemon-reload
+systemctl --user enable ludusavi-steam.timer
 
 log_success "Module completed successfully"
 log_end
