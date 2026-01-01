@@ -46,6 +46,7 @@ while true; do
 
     # --- RUN ON EXIT ---
     # Backup save games with ludusavi
+    /usr/bin/flatpak run com.github.mtkennerly.ludusavi manifest update --force
     /usr/bin/flatpak run com.github.mtkennerly.ludusavi \
         --config="$HOME/.var/app/com.github.mtkennerly.ludusavi/config/ludusavi/heroic" \
         backup --force
