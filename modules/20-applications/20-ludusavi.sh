@@ -27,7 +27,7 @@ tee ${HOME}/.local/bin/ludusavi-heroic.sh << EOF
 
 PROCESS="heroic"
 
-while true; do
+while sleep 1; do
     # Wait for Heroic to start
     while ! pgrep -x "\$PROCESS" >/dev/null; do
         sleep 1
