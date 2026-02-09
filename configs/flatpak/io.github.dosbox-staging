@@ -1,0 +1,2 @@
+[Context]
+filesystems=!home;!host;home/Games/Heroic;/var/mnt/data1/Games/Heroic;/var/mnt/data2/Games/Heroic;

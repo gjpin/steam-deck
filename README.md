@@ -1,4 +1,5 @@
 # Quickstart
+0. Confirm ludusavi redirects are valid (configs/ludusavi/config-heroic.yaml)
 1. Update SteamOS and reboot
 2. Run setup.sh
 3. Copy SSH private/public key to $HOME/.ssh

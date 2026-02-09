@@ -15,5 +15,9 @@ cp ./configs/mangohud/MangoHud.conf ${HOME}/.var/app/com.heroicgameslauncher.hgl
 # Create directories for Heroic games and prefixes
 mkdir -p ${HOME}/Games/Heroic/Prefixes
 
+# Install DOSBox
+sudo flatpak install -y flathub io.github.dosbox-staging
+cp ./configs/flatpak/io.github.dosbox-staging ${HOME}/.local/share/flatpak/overrides/io.github.dosbox-staging
+
 log_success "Module completed successfully"
 log_end
