@@ -7,3 +7,10 @@ backup:
   path: /home/$USER/Games/saves-heroic
 restore:
   path: /home/$USER/Games/saves-heroic
+redirects:
+  - kind: restore
+    source: /var/mnt/data1/Games/Heroic/Prefixes
+    target: /home/deck/Games/Heroic/Prefixes
+  - kind: restore
+    source: /var/mnt/data2/Games/Heroic/Prefixes
+    target: /home/deck/Games/Heroic/Prefixes
